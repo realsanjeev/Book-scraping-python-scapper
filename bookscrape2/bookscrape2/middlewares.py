@@ -57,7 +57,6 @@ class Bookscrape2SpiderMiddleware:
     def spider_opened(self, spider):
         spider.logger.info("Spider opened: %s" % spider.name)
 
-
 class Bookscrape2DownloaderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the downloader middleware does not modify the
@@ -176,7 +175,7 @@ class ScrapeOpsFakeBrowserHeaderMiddleWare:
         if self.scrapeops_num_results is not None:
             payload['num_results'] = self.scrapeops_num_results
 
-        response = requests.get(self.scrapeops_endpoint, params=urlencode(payload))
+        response = requests.get(self.scrapeops_endpoint, params=urlencode(payload), timeout=1000)
         json_response = response.json()
         self.browser_header_list = json_response.get('result', [])
 

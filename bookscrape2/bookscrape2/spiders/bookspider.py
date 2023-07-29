@@ -1,9 +1,11 @@
+from urllib.parse import urlencode
 import scrapy
 from bookscrape2.items import BookItem
 
+
 class BookspiderSpider(scrapy.Spider):
     name = "bookspider"
-    allowed_domains = ["books.toscrape.com"]
+    allowed_domains = ["books.toscrape.com", "proxy.scrapeops.io"]
     start_urls = ["https://books.toscrape.com"]
 
     def parse(self, response):
@@ -20,7 +22,7 @@ class BookspiderSpider(scrapy.Spider):
         if next_page is not None:
             next_page= 'catalogue/' + next_page if 'catalogue' not in next_page else  next_page
             next_page_url = "https://books.toscrape.com/" + next_page
-            yield response.follow(next_page_url, callback=self.parse)
+            yield response.follow(url=next_page_url, callback=self.parse)
 
     def parse_book_details(self, response):
         book_detail = response.css('.page_inner')

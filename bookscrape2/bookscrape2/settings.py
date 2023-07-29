@@ -55,8 +55,12 @@ ROBOTSTXT_OBEY = True
 DOWNLOADER_MIDDLEWARES = {
 #    "bookscrape2.middlewares.Bookscrape2DownloaderMiddleware": 543,
    "bookscrape2.middlewares.ScrapeOpsFakeBrowserHeaderMiddleWare": 542,
-    'rotating_proxies.middlewares.RotatingProxyMiddleware': 610,
-    'rotating_proxies.middlewares.BanDetectionMiddleware': 620,
+    # 'rotating_proxies.middlewares.RotatingProxyMiddleware': 610,
+    # 'rotating_proxies.middlewares.BanDetectionMiddleware': 620, 
+    
+    ## Proxy Middleware
+    'scrapeops_scrapy_proxy_sdk.scrapeops_scrapy_proxy_sdk.ScrapeOpsScrapyProxySdk': 725,
+
 }
 
 # Enable or disable extensions
@@ -108,6 +112,7 @@ SCRAPEOPS_API_KEY = "5cdf4d71-9fef-493b-93c8-3e0e160a4c06"
 SCRAPEOPS_END_POINT = "https://headers.scrapeops.io/v1/browser-headers"
 SCRAPEOPS_FAKE_BROWSER_HEADER_ACTIVE = True
 SCRAPEOPS_NUM_RESULTS = 10
+SCRAPEOPS_PROXY_ENABLED = True
 
 
 # proxy-rotating
