@@ -39,8 +39,34 @@ class BookspiderSpider(scrapy.Spider):
             next_page_url = "https://books.toscrape.com/" + next_page
             yield response.follow(next_page_url, callback=self.parse)
 ```
-To save scraped data in file
+### To save scraped data in file
+1. Rewrite file every time you scrapy
 ```
-scrapy crawl bookspider -O data.csv
+$ scrapy crawl bookspider -O data.csv
+```
+2. Append the data in same file
+```
+$ scrapy crawl bookspider -0 data.csv
+```
+3. You can specify the way file is scrape in `settings.py`
+```
+FEEDS = {
+    'book.json': {'format': 'json'}
+}
+```
+Run scrapy as usual. It saves file in `data.json`
+```
+$ scrapy crawl bookspider
 ```
 
+For database installation. See: DATABASE-CMD.md
+
+## Python package manager for mySql
+```
+pip install mysql-connector-python
+```
+
+## For rotatin gproxy
+```
+pip install scrapy-rotating-proxies
+```

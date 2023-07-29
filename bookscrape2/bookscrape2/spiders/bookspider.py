@@ -1,5 +1,5 @@
 import scrapy
-from bookscrape.items import BookItem
+from bookscrape2.items import BookItem
 
 class BookspiderSpider(scrapy.Spider):
     name = "bookspider"

@@ -8,7 +8,7 @@ import os
 from itemadapter import ItemAdapter
 import mysql.connector
 
-class BookscrapePipeline:
+class Bookscrape2Pipeline:
     def process_item(self, item, spider):
         adapter = ItemAdapter(item=item)
 
@@ -94,38 +94,29 @@ class SaveToMySQLPipeline:
         self.conn.commit()
 
     def process_item(self, item, spider):
-        print("*"*88)
-        print(item)
-        print("*"*60)
-        try:
-            self.cur.execute("""
-            INSERT INTO books (
-                url, name, price_excl_tax, price_incl_tax, tax, price,
-                type, genre, availability, no_of_reviews, stars, description
-            ) VALUES (
-                %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
-            )
-        """,
-        (
-            item["url"],
-            item["name"],
-            item["price_excl_tax"],
-            item["price_incl_tax"],
-            item["tax"],
-            item["price"],
-            item["type"],
-            item["genre"],
-            item["availability"],
-            item["no_of_reviews"],
-            item["stars"],
-            str(item["description"])
-        ))
-            self.conn.commit()
-        except Exception:
-            print("-"*60)
-            print("Problem occured:")
-            print(item)
-            print("-"*60)
+        self.cur.execute("""
+        INSERT INTO books (
+            url, name, price_excl_tax, price_incl_tax, tax, price,
+            type, genre, availability, no_of_reviews, stars, description
+        ) VALUES (
+            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+        )
+    """,
+    (
+        item["url"],
+        item["name"],
+        item["price_excl_tax"],
+        item["price_incl_tax"],
+        item["tax"],
+        item["price"],
+        item["type"],
+        item["genre"],
+        item["availability"],
+        item["no_of_reviews"],
+        item["stars"],
+        str(item["description"])
+    ))
+        self.conn.commit()
         # returning item is important in process_item method in pipeline
         return item
 

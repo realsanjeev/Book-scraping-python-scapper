@@ -1,4 +1,4 @@
-# Scrapy settings for bookscrape project
+# Scrapy settings for bookscrape2 project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,14 +7,14 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = "bookscrape"
+BOT_NAME = "bookscrape2"
 
-SPIDER_MODULES = ["bookscrape.spiders"]
-NEWSPIDER_MODULE = "bookscrape.spiders"
+SPIDER_MODULES = ["bookscrape2.spiders"]
+NEWSPIDER_MODULE = "bookscrape2.spiders"
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "bookscrape (+http://www.yourdomain.com)"
+#USER_AGENT = "bookscrape2 (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -44,15 +44,20 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-#    "bookscrape.middlewares.BookscrapeSpiderMiddleware": 543,
-#}
+
+# minimum number takes precedence
+# SPIDER_MIDDLEWARES = {
+#    "bookscrape2.middlewares.Bookscrape2SpiderMiddleware": 543,
+# }
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    "bookscrape.middlewares.BookscrapeDownloaderMiddleware": 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+#    "bookscrape2.middlewares.Bookscrape2DownloaderMiddleware": 543,
+   "bookscrape2.middlewares.ScrapeOpsFakeBrowserHeaderMiddleWare": 542,
+    'rotating_proxies.middlewares.RotatingProxyMiddleware': 610,
+    'rotating_proxies.middlewares.BanDetectionMiddleware': 620,
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -62,10 +67,9 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {
-   "bookscrape.pipelines.BookscrapePipeline": 300,
-   "bookscrape.pipelines.SaveToMySQLPipeline": 800,
-}
+#ITEM_PIPELINES = {
+#    "bookscrape2.pipelines.Bookscrape2Pipeline": 300,
+#}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -93,6 +97,24 @@ REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 
-FEEDS = {
-    'book.csv': {'format': 'csv'}
-}
+# middleware scrapeops constant values for user-agents
+# SCRAPEOPS_API_KEY = "5cdf4d71-9fef-493b-93c8-3e0e160a4c06"
+# SCRAPEOPS_END_POINT = "https://headers.scrapeops.io/v1/user-agents"
+# SCRAPEOPS_FAKE_USER_AGENTS_ACTIVE = True
+# SCRAPEOPS_NUM_RESULTS = 10
+
+# middleware scrapeops constant values for browser-header
+SCRAPEOPS_API_KEY = "5cdf4d71-9fef-493b-93c8-3e0e160a4c06"
+SCRAPEOPS_END_POINT = "https://headers.scrapeops.io/v1/browser-headers"
+SCRAPEOPS_FAKE_BROWSER_HEADER_ACTIVE = True
+SCRAPEOPS_NUM_RESULTS = 10
+
+
+# proxy-rotating
+ROTATING_PROXY_LIST = [
+    '203.24.109.109:80',
+    '20.219.118.36:80',
+    '186.251.255.189:31337',
+    '149.20.253.77:12551',
+    '177.12.178.249:4153'
+]
