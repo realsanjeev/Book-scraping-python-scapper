@@ -59,14 +59,14 @@ Run scrapy as usual. It saves file in `data.json`
 $ scrapy crawl bookspider
 ```
 
-For database installation. See: DATABASE-CMD.md
+For database installation. See: [DATABASE-CMD.md](https://github.com/realsanjeev/Book-scraping-python-scapper/blob/main/DATABASE-CMD.md)
 
 ## Python package manager for mySql
 ```
 pip install mysql-connector-python
 ```
 
-## For rotatin gproxy
+## For rotating proxy
 ```
 pip install scrapy-rotating-proxies
 ```
