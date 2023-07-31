@@ -13,6 +13,7 @@ class BookscrapeItem(scrapy.Item):
 
 class BookItem(scrapy.Item):
     url = scrapy.Field()
+    upc = scrapy.Field()
     name = scrapy.Field()
     price_excl_tax = scrapy.Field()
     price_incl_tax = scrapy.Field()

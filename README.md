@@ -1,21 +1,21 @@
 # Scrapy
 
-Start scrapy project
+### Start scrapy project
 ```
 scrapy startproject <projectname>
 ```
-for interactive shell
+### For interactive shell
 ```
 pip install ipython
 ```
 
-# run pogram
+### Run scrapy pogram
 ```
 cd <projectname>
 scrapy genspider bookspider books.toscrape.com
 scrapy crawl bookspider
 ```
-Sample file for bookscrape.py
+Sample file for `bookscrape.py`
 ```python
 import scrapy
 
@@ -65,7 +65,7 @@ For database installation. See: [DATABASE-CMD.md](https://github.com/realsanjeev
 ```
 pip install mysql-connector-python
 ```
-
+Create a database and proceed. Change database name in `bookscrape/bookscrape/pipeline.py` `SaveToMySQLPipeline` to your database
 ## For rotating proxy
 ```
 pip install scrapy-rotating-proxies
