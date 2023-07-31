@@ -76,18 +76,19 @@ class SaveToMySQLPipeline:
         self.cur.execute("""
             CREATE TABLE IF NOT EXISTS books (
                 id INTEGER NOT NULL AUTO_INCREMENT,
-                url varchar(255),
-                name varchar(128),
+                url VARCHAR(255),
+                upc VARCHAR(64) UNIQUE,
+                name VARCHAR(128),
                 price_excl_tax DECIMAL,
                 price_incl_tax DECIMAL,
                 tax DECIMAL,
                 price DECIMAL,
-                type varchar(32),
-                genre varchar(32),
-                availability integer,
-                no_of_reviews integer,
-                stars integer,
-                description text,
+                type VARCHAR(32),
+                genre VARCHAR(32),
+                availability INTEGER,
+                no_of_reviews INTEGER,
+                stars INTEGER,
+                description TEXT,
                 PRIMARY KEY(id)
             )
         """)

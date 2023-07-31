@@ -51,9 +51,13 @@ $ netstat -tupln
 mysql > SHOW GLOBAL VARIABLES LIKE 'PORT';
 ```
 
+To fix issue: **raise get_mysql_exception(
+mysql.connector.errors.ProgrammingError: 1698 (28000): Access denied for user 'root'@'localhost'**
 
-
+In `mysql`
+```bash
 use mysql;                                                    
 update user set authentication_string=PASSWORD("") where user = "root";
 update user set plugin="mysql_native_password" where user = "root";
 flush privileges;
+```
