@@ -11,12 +11,13 @@ class QuotesScrapeItem(scrapy.Item):
     # name = scrapy.Field()
     author = scrapy.Field()
     tags = scrapy.Field()
-    quotes = scrapy.Field()
+    quote = scrapy.Field()
+    author_info = scrapy.Field()
 
 class AuthorScrapeItem(scrapy.Item):
     name = scrapy.Field()
-    birthday = scrapy.Field()
-    genre = scrapy.Field()
-    influences = scrapy.Field()
-    birthplace = scrapy.Field()
+    dob = scrapy.Field()
+    # genre = scrapy.Field()
+    # influences = scrapy.Field()
+    birth_place = scrapy.Field()
     description = scrapy.Field()
