@@ -70,3 +70,7 @@ Create a database and proceed. Change database name in `bookscrape/bookscrape/pi
 ```
 pip install scrapy-rotating-proxies
 ```
+
+##### For config env variable
+
+
