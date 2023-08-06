@@ -8,6 +8,7 @@ nav {
     padding: 10px;
     display: flex;
 }
+
 .nav-header {
     color: white;
     font-size: 30px;
@@ -38,4 +39,41 @@ nav a {
 
 nav a:hover {
     background-color: #555;
+}
+
+/* index.html */
+
+.container {
+    background-color: #ffffff;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.heading {
+    color: #337ab7;
+    text-align: center;
+}
+
+p {
+    text-align: center;
+    line-height: 1.5;
+}
+
+/* table */
+table {
+    border-style: inset;
+}
+
+.table-head {
+    padding: 3px;
+    border-style: ridge;
+    text-transform: uppercase;
+    
+    background: palevioletred;
+}
+.table-data {
+    border-style: dashed;
+    text-align: center;
 }

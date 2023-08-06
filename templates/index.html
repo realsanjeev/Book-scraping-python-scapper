@@ -4,8 +4,37 @@
 {% block title %} | Web Scraping using Scrapy{% endblock title %}
 
 {% block main_container %}
-<div>
-    <h1>Spider through Web</h1>
-    <p>Welcomee to web Scrapping Site!!! In this page we scrapr erb pages using Scrpay.</p>
+    <div class="container">
+        <h1 class="heading">Spider through Web</h1>
+        <p>Welcome to Web Scraping Site!!! In this page, we scrape web pages using Scrapy.</p>
+        <p>Web scraping is the process of extracting information from websites automatically. It allows you to gather data from various sources on the internet quickly and efficiently.</p>
+        <p>Scrapy is a powerful and flexible Python framework used for web scraping. It provides built-in support for handling requests, managing cookies, and parsing data from HTML, XML, and JSON.</p>
+        <h2>Example: Scraping Quotes</h2>
+        <p>Let's see a simple example of how Scrapy works. Below is a spider that extracts quotes and their authors from the website "http://quotes.toscrape.com".</p>
+        <div class="container" style="border-style: double;">
+        <pre>
+import scrapy
+
+class QuotesSpider(scrapy.Spider):
+    name = 'quotes'
+    start_urls = ['http://quotes.toscrape.com']
+
+    def parse(self, response):
+        for quote in response.css('div.quote'):
+            text = quote.css('span.text::text').get()
+            author = quote.css('span small.author::text').get()
+            yield {
+                'quote': text,
+                'author': author,
+            }
+
+        next_page = response.css('li.next a::attr(href)').get()
+        if next_page is not None:
+            yield response.follow(next_page, self.parse)
+        </pre>
+    </div>
+        <p>This spider will extract quotes and their authors from the website and follow pagination links to scrape multiple pages of quotes.</p>
+        <p>With Scrapy, you can build more complex spiders to scrape data from various websites and save it in different formats such as CSV, JSON, or databases.</p>
+ 
 </div>
 {% endblock main_container%}
