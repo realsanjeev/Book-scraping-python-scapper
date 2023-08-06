@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}| Quotes scrapping{% endblock title %}
+
+{% block main_container %}
+<div class="container">
+    <h1 class="heading">Quotes Scraped Data</h1>
+    <table>
+        <tbody>
+            <tr>
+                {% for column in columns %}
+
+                <th class="table-head">{{column}}</th>
+                {% endfor %}
+            </tr>
+            {% for record in records %}
+            <tr>
+                {% for column_data in record %}
+                    <td class="table-data">{{column_data}}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock main_container %}

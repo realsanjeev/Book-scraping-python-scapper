@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrapped data{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
+    <link rel="icon" type="image/icon" href="{{url_for('static', filename='web-favicon.png')}}">
+</head>
+<body>
+    <nav>
+        <div class="nav-header">
+            Web Scraping
+        </div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/book">BookScrape</a></li>
+            <li><a href="/quotes">QuotesScrape</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+    {% block main_container %}
+    {% endblock main_container%}
+</body>
+</html>
