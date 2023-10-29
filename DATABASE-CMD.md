@@ -61,3 +61,4 @@ update user set authentication_string=PASSWORD("") where user = "root";
 update user set plugin="mysql_native_password" where user = "root";
 flush privileges;
 ```
+Replace 2nd command with `UPDATE user SET authentication_string = "" WHERE user = "root";`

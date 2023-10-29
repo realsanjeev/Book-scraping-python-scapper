@@ -1,6 +1,7 @@
 # Scrapy
 
 ### Start scrapy project
+''''Problem may rise if you are using github global env. Create virtual env to run scrapy without problem''
 ```
 scrapy startproject <projectname>
 ```

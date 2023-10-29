@@ -1,3 +1,4 @@
+'''Module to connect to mysql database'''
 import os
 import configparser
 import mysql.connector
@@ -23,28 +24,29 @@ class MyDatabase:
             self.cur = self.conn.cursor()
             self.db_name = db_name
         except mysql.connector.Error as err:
-            raise (f"Cannot connect to database: {err}")
+            raise f"Cannot connect to database: {err}"
         self.sys_table = ['information_schema', 'mysql', 'performance_schema', 'sys']
 
     def get_tables_name(self):
-        self.cur.execute(f"SHOW TABLES;")
-        all_user_tables = [table[0].decode('utf-8') for table in self.cur.fetchall() \
+        self.cur.execute("SHOW TABLES;")
+        all_user_tables = [table[0] for table in self.cur.fetchall() \
                            if table[0] not in self.sys_table]
-        if not len(all_user_tables):
+        if not all_user_tables:
             if self.db_name=="bookdb":
-                os.system("cd bookscrape")
-                os.system("scrapy crawl bookspider")
+                # must be chained to execute
+                os.system("cd bookscrape && scrapy crawl bookspider")
             if self.db_name=="quotesdb":
-                os.system("cd quotes_scrape")
-                os.system("scrapy crawl quotespider")
+                os.system("cd quotes_scrape && scrapy crawl quotespider")
         return all_user_tables
 
     def get_column_names(self, table_name):
+        '''Get all column name of table'''
         self.cur.execute(f"SHOW COLUMNS FROM {table_name}")
         # return info of table columns
         columns = [column[0] for column in self.cur.fetchall()]
+        print('*'*43, columns)
         return columns
-    
+
     def get_records(self, table, limit=None):
         try:
             if limit is None:
@@ -64,9 +66,9 @@ class MyDatabase:
 
 if __name__ == "__main__":
     db = MyDatabase()
-    sample_table_name = "books"
-    column_names = db.get_column_names(sample_table_name)
+    SAMPLE_TABLE_NAME = "books"
+    column_names = db.get_column_names(SAMPLE_TABLE_NAME)
     all_tables = db.get_tables_name()
-    db.get_records(sample_table_name)
+    db.get_records(SAMPLE_TABLE_NAME)
     # print(f"Column names of the table '{all_tables}':")
     db.close_connection()
