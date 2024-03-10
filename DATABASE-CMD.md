@@ -1,16 +1,16 @@
 ## MySQL setup
 
 
-install mysql server in codespace 
-> mysql doesnot have default password, leave it blank if you RE PROMPTED in for first entry. Be sure to change it
-```
-$ sudo apt-get update
-$ sudo apt-get install mysql-server
-$ sudo service mysql start 
-$ sudo mysql -u root -p
+Install mysql server in codespace 
+> mysql doesnot have default password, leave it blank if you **RE-PROMPTED** in for first entry. Be sure to change it
+```bash
+sudo apt-get update
+sudo apt-get install mysql-server
+sudo service mysql start 
+sudo mysql -u root -p
 ```
 Possible error: `ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (13)`. Follow below steps. If it doesnot work remove(for first time user only. Data will be lost if you do be sure to backup if you already have database): `sudo apt-get remove --purge mysql` and install mysql-server
-```bashshell
+```bash
 @realsanjeev ➜ /workspaces/Scrapy (main) $ sudo service mysql start 
  * Starting MySQL database server mysqld                                                                                                              [ OK ] 
 @realsanjeev ➜ /workspaces/Scrapy (main) $ mysql
@@ -33,7 +33,7 @@ mysql>
 ```
 ## SQL command
 
-```
+```sql
 - display all database present
 mysql> show databases;
 - create database <database-name>
@@ -43,11 +43,11 @@ mysql> use bookdb;
 ```
 
 ## To view port number used in process
-```
+```bash
 $ netstat -tupln
 ```
 
-```
+```bash
 mysql > SHOW GLOBAL VARIABLES LIKE 'PORT';
 ```
 
@@ -56,7 +56,7 @@ mysql.connector.errors.ProgrammingError: 1698 (28000): Access denied for user 'r
 
 In `mysql`
 ```bash
-use mysql;                                                    
+use mysql;
 update user set authentication_string=PASSWORD("") where user = "root";
 update user set plugin="mysql_native_password" where user = "root";
 flush privileges;
