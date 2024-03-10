@@ -47,17 +47,18 @@ class MyDatabase:
         print('*'*43, columns)
         return columns
 
-    def get_records(self, table, limit=None):
+    def get_records(self, table, limit=5, offset=None):
         try:
-            if limit is None:
-                self.cur.execute(f"""SELECT * FROM {table}""")
+            if offset is None:
+                self.cur.execute(f"SELECT * FROM {table} LIMIT {limit}")
             else:
-                self.cur.execute(f"""SELECT * FROM {table} LIMIT {limit}""")
+                self.cur.execute(f"SELECT * FROM {table} LIMIT {limit} OFFSET {offset}")
             records = self.cur.fetchall()
             return records
         except mysql.connector.errors.Error as err:
             print(err)
-            return f"Error Occured while reading Database: {err}"
+            return f"Error occurred while reading Database: {err}"
+
 
     def close_connection(self):
         self.cur.close()

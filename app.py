@@ -1,6 +1,6 @@
 '''Project uses scrappy to scrape the website and display it to user'''
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from jinja2 import Environment, PackageLoader
 from pipeline import MyDatabase
 
@@ -17,7 +17,8 @@ def enumerate_filter(iterable, start=0):
 
 env.filters['enumerate'] = enumerate_filter
 
-
+# constant variable
+LIMIT=10
 
 @app.route('/')
 def index():
@@ -27,6 +28,9 @@ def index():
 @app.route('/book')
 def book_view():
     '''Book view from bookscrape'''
+    page = request.args.get("page", 1, type=int) 
+    offset = 0 if page<=1 else (page-1) * LIMIT
+
     database = MyDatabase(db_name="bookdb")
     tables = database.get_tables_name()
     try:
@@ -38,7 +42,7 @@ def book_view():
         # os.system("source venv2/bin/activate && pip install --upgrade pip && cd bookscrape && scrapy crawl bookspider")
         columns = database.get_column_names(table_name=tables[0])
     
-    records = database.get_records(table=tables[0])
+    records = database.get_records(table=tables[0], limit=LIMIT, offset=offset)
     return render_template('book.html', columns=columns, records=records)
 
 @app.route('/quotes')

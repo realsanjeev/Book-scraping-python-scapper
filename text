@@ -1,0 +1,28 @@
+
+    <table>
+        <tbody>
+
+            <tr>
+                {% for column in columns %}
+
+                <th class="table-head">{{column}}</th>
+                {% endfor %}
+            </tr>
+
+            {% for record in records %}
+            <tr>
+                {% for column_data in record|list %}
+                {% if loop.index == 2 %}
+                <td class="table-data link">
+                    <a href="{{column_data}}">Link</a>
+                </td>
+                {% else %}
+                <td class="table-data">{{ column_data }}</td>
+                {% endif %}
+                {% endfor %}
+
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
