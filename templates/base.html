@@ -6,6 +6,9 @@
     <title>Scrapped data{% block title %}{% endblock title %}</title>
     <link rel="stylesheet" href="{{url_for('static', filename='styles/main.css')}}">
     <link rel="icon" type="image/icon" href="{{url_for('static', filename='images/web-favicon.png')}}">
+
+    {% block head %}
+    {% endblock head %}
 </head>
 <body>
     <nav>

@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
 
 {% block title %}| Bookscrape scrapping{% endblock title %}
+{% block head %}
+    <link rel="stylesheet" href="{{url_for('static', filename='styles/card.css')}}">
+{% endblock head %}
 
 {% block main_container %}
-<div class="container">
+<!-- <div class="container">
     <div class="grid-container">
+        {% for record in records %}
+
         <div class="grid-card">
           <div class="image image-1"></div>
           <div class="text">
@@ -19,7 +24,28 @@
           <div class="published">Published:<span> March 21, 2021</span></div>
           <div class="button-info">More Info</div>
         </div>
-      </div>
+        {% endfor %}
+    </div>
+</div> -->
+
+<!-- <div class="grid-container">
+    {% for record in records %}
+    <div class="grid-card">
+        {% for col_data in records|list %}
+        <div class="image image-1"></div>
+        <div class="text">
+            <h2>{{ col_data }}</h2> 
+            <p>{{ record[1] }}</p>  
+        </div>
+        <div class="published">Published:<span> {{ record[3] }}</span></div>  
+        <div class="button-info">
+            <a href="{{ col_data }}">More Info</a>  
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div> -->
+
 
 
 
