@@ -70,9 +70,10 @@ table {
     padding: 3px;
     border-style: ridge;
     text-transform: uppercase;
-    
+
     background: palevioletred;
 }
+
 .table-data {
     border-style: dashed;
     text-align: center;

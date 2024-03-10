@@ -1,36 +1,42 @@
 {% extends 'base.html' %}
 
-{% block title %}| Bookscrape scrapping{% endblock title %}
+{% block title %}| Bookscrape Scrapping{% endblock title %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/card.css') }}">
+{% endblock head %}
 
 {% block main_container %}
-<div class="container">
     <h1 class="heading">Book Scraped Data</h1>
-    <table>
-        <tbody>
-
-            <tr>
-                {% for column in columns %}
-
-                <th class="table-head">{{column}}</th>
-                {% endfor %}
-            </tr>
-
+    <div class="container">
+        <div class="grid-container">
             {% for record in records %}
-            <tr>
-                {% for column_data in record|list %}
-                {% if loop.index == 2 %}
-                <td class="table-data link">
-                    <a href="{{column_data}}">Link</a>
-                </td>
-                {% else %}
-                <td class="table-data">{{ column_data }}</td>
-                {% endif %}
-                {% endfor %}
-
-            </tr>
+                <div class="grid-card">
+                    <div class="image image-1"></div>
+                    <div class="text">
+                        <!-- records values in list form -->
+                        <!-- list is in the form: ['id', 'url', 'upc', 'name', 
+                                                'price_excl_tax', 'price_incl_tax', 'tax', 'price', 
+                                                'type', 'genre', 'availability', 'no_of_reviews',
+                                                'stars', 'description'] -->
+                        <h2><sup>{{ record[0] }}</sup>{{ record[3] }}</h2>
+                        <pre>
+upc: {{ record[2] }} {% if record[6] == 0 %}
+price: ${{ record[7] }} (no tax) {% else %}
+tax: ${{ record[6] }}
+Final price: ${{ record[7] }} (with tax) {% endif %}
+type: {{ record[8] }}
+genre: {{ record[9] }}
+availability: {{ record[10] }}
+                        </pre>
+                        <p>
+                            {{ record[13] }}
+                        </p>
+                    </div>
+                    <div class="published">No of Reviews:{{ record[11] }}<span>Rating:{% for stars in range(record[12]) %}⭐{% endfor %}{% for _ in range(5-record[12])%}✰{% endfor %}</span></div>
+                    <div class="button-info"><a href={{ record[1] }}>Source Link</a></div>
+                </div>
             {% endfor %}
-
-        </tbody>
-    </table>
-</div>
+        </div>
+    </div>
 {% endblock main_container %}
