@@ -1,15 +1,41 @@
-## MySQL setup
+## MySQL Setup
 
+### Installing MySQL Server
 
-Install mysql server in codespace 
-> mysql doesnot have default password, leave it blank if you **RE-PROMPTED** in for first entry. Be sure to change it
-```bash
-sudo apt-get update
-sudo apt-get install mysql-server
-sudo service mysql start 
-sudo mysql -u root -p
-```
-Possible error: `ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (13)`. Follow below steps. If it doesnot work remove(for first time user only. Data will be lost if you do be sure to backup if you already have database): `sudo apt-get remove --purge mysql` and install mysql-server
+To install MySQL server in Codespaces:
+
+> **Note:** MySQL does not have a default password. If you are prompted for a password during the initial setup, leave it blank. Be sure to set a password afterward for security.
+
+1. Update package lists and install MySQL server:
+    ```bash
+    sudo apt-get update
+    sudo apt-get install mysql-server
+    ```
+2. Start the MySQL service:
+    ```bash
+    sudo service mysql start
+    ```
+3. Log in to MySQL as the root user:
+    ```bash
+    sudo mysql -u root -p
+    ```
+
+### Troubleshooting
+
+If you encounter the error `ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (13)`, follow these steps:
+
+1. Start the MySQL service again:
+    ```bash
+    sudo service mysql start
+    ```
+2. If the problem persists, consider removing and reinstalling MySQL server (note: this will delete all existing databases, so back up your data if necessary):
+    ```bash
+    sudo apt-get remove --purge mysql-server
+    sudo apt-get install mysql-server
+    ```
+
+### Example Session
+
 ```bash
 @realsanjeev ➜ /workspaces/Scrapy (main) $ sudo service mysql start 
  * Starting MySQL database server mysqld                                                                                                              [ OK ] 
@@ -31,34 +57,53 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
 mysql> 
 ```
-## SQL command
+
+### Basic SQL Commands
+
+To interact with the MySQL server, use the following commands(Here we create two databases of `bookdb` and `quotesdb`):
 
 ```sql
-- display all database present
-mysql> show databases;
-- create database <database-name>
-mysql> create database bookdb
-- enter to <database>
-mysql> use bookdb;
+-- Display all databases present
+SHOW DATABASES;
+
+-- Create a new database
+CREATE DATABASE bookdb;
+CREATE DATABASE quotesdb
+
+-- Select the database to use
+USE bookdb;
 ```
 
-## To view port number used in process
-```bash
-$ netstat -tupln
-```
+### Changing the Root User Password
 
-```bash
-mysql > SHOW GLOBAL VARIABLES LIKE 'PORT';
-```
+If you encounter the error `mysql.connector.errors.ProgrammingError: 1698 (28000): Access denied for user 'root'@'localhost'`, change the root user password:
 
-To fix issue: **raise get_mysql_exception(
-mysql.connector.errors.ProgrammingError: 1698 (28000): Access denied for user 'root'@'localhost'**
+1. Log in to MySQL:
+    ```bash
+    sudo mysql -u root -p
+    ```
+2. Execute the following commands:
+    ```sql
+    USE mysql;
+    UPDATE user SET authentication_string=PASSWORD('new_password') WHERE user='root';
+    UPDATE user SET plugin='mysql_native_password' WHERE user='root';
+    FLUSH PRIVILEGES;
+    ```
 
-In `mysql`
-```bash
-use mysql;
-update user set authentication_string=PASSWORD("") where user = "root";
-update user set plugin="mysql_native_password" where user = "root";
-flush privileges;
-```
-Replace 2nd command with `UPDATE user SET authentication_string = "" WHERE user = "root";`
+   Replace `new_password` with your desired password.
+
+### Viewing the Port Number
+
+To check the port number used by MySQL:
+
+1. Use `netstat` to view network statistics:
+    ```bash
+    netstat -tupln
+    ```
+
+2. In MySQL, run:
+    ```sql
+    SHOW GLOBAL VARIABLES LIKE 'PORT';
+    ```
+
+This README provides the necessary steps to set up and troubleshoot MySQL on Codespaces. For more detailed information, consult the MySQL documentation.

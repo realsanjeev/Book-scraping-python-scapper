@@ -12,7 +12,7 @@ db_user = config["DATABASE"]["user"]
 db_password = config["DATABASE"]["password"]
 
 class MyDatabase:
-    def __init__(self, db_name="bookdb"):
+    def __init__(self, db_name="bookdb", db_host="localhost", db_user="root", db_password=""):
         try:
             os.system("sudo service mysql start")
             self.conn = mysql.connector.connect(
@@ -23,28 +23,45 @@ class MyDatabase:
             )
             self.cur = self.conn.cursor()
             self.db_name = db_name
+            self.cur.execute("""
+                CREATE TABLE IF NOT EXISTS books (
+                    id INTEGER NOT NULL AUTO_INCREMENT,
+                    url VARCHAR(255),
+                    upc VARCHAR(64) UNIQUE,
+                    name VARCHAR(128),
+                    price_excl_tax DECIMAL(10, 2),
+                    price_incl_tax DECIMAL(10, 2),
+                    tax DECIMAL(10, 2),
+                    price DECIMAL(10, 2),
+                    type VARCHAR(32),
+                    genre VARCHAR(32),
+                    availability INTEGER,
+                    no_of_reviews INTEGER,
+                    stars INTEGER,
+                    description TEXT,
+                    PRIMARY KEY(id)
+                )
+            """)
         except mysql.connector.Error as err:
-            raise f"Cannot connect to database: {err}"
+            print(f"[ERROR] Cannot connect to database: {err}")
+            raise Exception(f"Cannot connect to database: {err}")
         self.sys_table = ['information_schema', 'mysql', 'performance_schema', 'sys']
 
     def get_tables_name(self):
         self.cur.execute("SHOW TABLES;")
-        all_user_tables = [table[0] for table in self.cur.fetchall() \
-                           if table[0] not in self.sys_table]
+        all_user_tables = [table[0] for table in self.cur.fetchall() if table[0] not in self.sys_table]
         if not all_user_tables:
-            if self.db_name=="bookdb":
-                # must be chained to execute
+            if self.db_name == "bookdb":
                 os.system("cd bookscrape && scrapy crawl bookspider")
-            if self.db_name=="quotesdb":
+            elif self.db_name == "quotesdb":
                 os.system("cd quotes_scrape && scrapy crawl quotespider")
         return all_user_tables
 
     def get_column_names(self, table_name):
-        '''Get all column name of table'''
+        '''Get all column names of a table'''
         self.cur.execute(f"SHOW COLUMNS FROM {table_name}")
-        # return info of table columns
         columns = [column[0] for column in self.cur.fetchall()]
-        print('*'*43, columns)
+        print('*' * 43, columns)
         return columns
 
     def get_records(self, table, limit=5, offset=None):
@@ -55,14 +72,14 @@ class MyDatabase:
                 self.cur.execute(f"SELECT * FROM {table} LIMIT {limit} OFFSET {offset}")
             records = self.cur.fetchall()
             return records
-        except mysql.connector.errors.Error as err:
-            print(err)
-            return f"Error occurred while reading Database: {err}"
-
+        except mysql.connector.Error as err:
+            print(f"Error occurred while reading from database: {err}")
+            return f"Error occurred while reading from database: {err}"
 
     def close_connection(self):
         self.cur.close()
         self.conn.close()
+
 
 
 if __name__ == "__main__":

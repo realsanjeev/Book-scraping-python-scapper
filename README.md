@@ -1,29 +1,52 @@
 # Scrapy Quick Start Guide
 
 ### Setting Up a Scrapy Project
-**Note:** If using a global GitHub environment, create a virtual environment to avoid potential issues.
+
+**Note:** If you are using a global GitHub environment, create a virtual environment to avoid potential issues.
+
 ```bash
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-1. Run the Scrapy Spider
-```bash
-scrapy crawl bookspider
-```
+1. Set up the database using [DATABASE-CMD.md](DATABASE-CMD.md).
+
+2. Run the Scrapy Spider:
+
+    ```bash
+    cd bookscrape
+    scrapy crawl bookspider
+    cd ../quotes_scrape
+    scrapy crawl quotesspider
+    ```
+
+3. Run the Flask app:
+
+    ```bash
+    python app.py
+    ```
 
 ### Interactive Shell Setup
+
+To set up an interactive shell:
+
 ```bash
 pip install ipython
 ```
 
 ### Starting a New Scrapy Project
+
+To start a new Scrapy project:
+
 ```bash
 scrapy startproject <projectname>
 ```
 
 ### Running a Scrapy Program
+
+To run a Scrapy program:
+
 ```bash
 cd <projectname>
 scrapy genspider bookspider books.toscrape.com
@@ -32,8 +55,8 @@ scrapy crawl bookspider
 
 Follow these steps to start and run your Scrapy project efficiently. Use the provided commands to set up the environment, run the spider, and interact with the Scrapy shell for seamless web scraping.
 
+### Sample File for `bookscrape.py`
 
-Sample file for `bookscrape.py`
 ```python
 import scrapy
 
@@ -53,42 +76,58 @@ class BookspiderSpider(scrapy.Spider):
         
         next_page = response.css('.pager li.next a::attr("href")').get()
         if next_page is not None:
-            next_page= 'catalogue/' + next_page if 'catalogue' not in next_page else  next_page
+            next_page = 'catalogue/' + next_page if 'catalogue' not in next_page else next_page
             next_page_url = "https://books.toscrape.com/" + next_page
             yield response.follow(next_page_url, callback=self.parse)
 ```
-### To save scraped data in file
-1. Rewrite file every time you scrapy
-```bash
-$ scrapy crawl bookspider -O data.csv
-```
-2. Append the data in same file
-```bash
-$ scrapy crawl bookspider -0 data.csv
-```
-3. You can specify the way file is scrape in `settings.py`
-```python
-FEEDS = {
-    'book.json': {'format': 'json'}
-}
-```
-Run scrapy as usual. It saves file in `data.json`
-```bash
-$ scrapy crawl bookspider
-```
 
-For database installation. See: [DATABASE-CMD.md](https://github.com/realsanjeev/Book-scraping-python-scapper/blob/main/DATABASE-CMD.md)
+### Saving Scraped Data to a File
 
-## Python package manager for mySql
+1. To overwrite the file every time you run Scrapy:
+
+    ```bash
+    scrapy crawl bookspider -O data.csv
+    ```
+
+2. To append data to the same file:
+
+    ```bash
+    scrapy crawl bookspider -o data.csv
+    ```
+
+3. You can specify the format for saving the file in `settings.py`:
+
+    ```python
+    FEEDS = {
+        'book.json': {'format': 'json'}
+    }
+    ```
+
+    Run Scrapy as usual. It will save the file as `book.json`.
+
+    ```bash
+    scrapy crawl bookspider
+    ```
+
+For database installation, see: [DATABASE-CMD.md](https://github.com/realsanjeev/Book-scraping-python-scapper/blob/main/DATABASE-CMD.md)
+
+### Python Package Manager for MySQL
+
+To install the MySQL connector for Python:
+
 ```bash
 pip install mysql-connector-python
 ```
-Create a database and proceed. Change database name in `bookscrape/bookscrape/pipeline.py` `SaveToMySQLPipeline` to your database
-## For rotating proxy
+
+Create a database and update the database name in `bookscrape/bookscrape/pipeline.py` under the `SaveToMySQLPipeline` class to match your database.
+
+### For Rotating Proxies
+
+To install the rotating proxies middleware for Scrapy:
+
 ```bash
 pip install scrapy-rotating-proxies
 ```
-
 <!-- ##### For config env variable -->
 
 
@@ -114,6 +153,9 @@ Contributions are welcome! If you find any issues or want to add new features, f
 This project is licensed under the [GNU GENERAL PUBLIC LICENSE](LICENSE).
 
 ---
+
+
+This guide provides the steps to set up and run a Scrapy project, including running spiders, managing the environment, and handling data output. Use it to streamline your web scraping tasks.
 
 Feel free to modify and enhance this `README.md` as needed to match your specific project details. The provided steps are generic, and you should customize them according to the actual setup and configuration of your "Web-Scrapping-python-scrapper" project.
 
