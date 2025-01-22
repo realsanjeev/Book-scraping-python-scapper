@@ -18,13 +18,12 @@ pip install -r requirements.txt
 
 Alternatively, refer to [DATABASE-CMD.md](DATABASE-CMD.md) for instructions on setting up MySQL locally instead of using Docker.
 
-2. Run the Scrapy spiders:
-
+2. Run the Scrapy spiders: If you arenot using the virtual environment while using `scrapy` command. **Replace the `scrapy` command with the `python -m scrapy` to solve the issue of not finding command**
     ```bash
     cd bookscrape
     scrapy crawl bookspider
     cd ../quotes_scrape
-    scrapy crawl quotesspider
+    scrapy crawl quotespider
     ```
 
 3. Launch the Flask app:
@@ -33,7 +32,6 @@ Alternatively, refer to [DATABASE-CMD.md](DATABASE-CMD.md) for instructions on s
     python app.py
     ```
 
----
 
 ### Starting a New Scrapy Project
 
@@ -55,6 +53,7 @@ Alternatively, refer to [DATABASE-CMD.md](DATABASE-CMD.md) for instructions on s
     ```
 
 Follow these steps to quickly set up and run your Scrapy project. The provided commands will help you configure the environment, run spiders, and use the Scrapy shell for efficient debugging.
+
 ### Sample File for `bookscrape.py`
 
 ```python
