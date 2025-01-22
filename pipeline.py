@@ -7,12 +7,17 @@ config = configparser.ConfigParser()
 config.read('config.ini')
 
 # config variable
-db_host = config["DATABASE"]["host"]
-db_user = config["DATABASE"]["user"]
-db_password = config["DATABASE"]["password"]
+DB_HOST     = config["DATABASE"]["db_host"]
+DB_USER     = config["DATABASE"]["db_user"]
+DB_PASSWORD = config["DATABASE"]["db_password"]
+DB_NAME     = config["DATABASE"]["db_name"]
+
 
 class MyDatabase:
-    def __init__(self, db_name="bookdb", db_host="localhost", db_user="root", db_password=""):
+    def __init__(self, db_host: str="localhost", 
+                    db_user: str="root", 
+                    db_password: str="", 
+                    db_name: str="bookdb"):
         try:
             os.system("sudo service mysql start")
             self.conn = mysql.connector.connect(
@@ -61,7 +66,7 @@ class MyDatabase:
         '''Get all column names of a table'''
         self.cur.execute(f"SHOW COLUMNS FROM {table_name}")
         columns = [column[0] for column in self.cur.fetchall()]
-        print('*' * 43, columns)
+        print(f"[INFO] Columns are: {columns}")
         return columns
 
     def get_records(self, table, limit=5, offset=None):
@@ -83,7 +88,7 @@ class MyDatabase:
 
 
 if __name__ == "__main__":
-    db = MyDatabase()
+    db = MyDatabase(db_host=DB_HOST, db_user=DB_USER, db_password=DB_PASSWORD)
     SAMPLE_TABLE_NAME = "books"
     column_names = db.get_column_names(SAMPLE_TABLE_NAME)
     all_tables = db.get_tables_name()
