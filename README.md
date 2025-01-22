@@ -2,7 +2,7 @@
 
 ### Setting Up a Scrapy Project
 
-**Note:** If you are using a global GitHub environment, create a virtual environment to avoid potential issues.
+**Note:** If you're working in a global GitHub environment, it's recommended to create a virtual environment to prevent potential issues.
 
 ```bash
 python -m venv venv
@@ -10,9 +10,15 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-1. Set up the database using [DATABASE-CMD.md](DATABASE-CMD.md).
+1. Set up the database using Docker in detached mode. You can use the following [docker-compose.yaml](./docker-compose.yaml) configuration:
 
-2. Run the Scrapy Spider:
+    ```bash
+    docker compose up -d
+    ```
+
+Alternatively, refer to [DATABASE-CMD.md](DATABASE-CMD.md) for instructions on setting up MySQL locally instead of using Docker.
+
+2. Run the Scrapy spiders:
 
     ```bash
     cd bookscrape
@@ -21,40 +27,34 @@ pip install -r requirements.txt
     scrapy crawl quotesspider
     ```
 
-3. Run the Flask app:
+3. Launch the Flask app:
 
     ```bash
     python app.py
     ```
 
-### Interactive Shell Setup
-
-To set up an interactive shell:
-
-```bash
-pip install ipython
-```
+---
 
 ### Starting a New Scrapy Project
 
-To start a new Scrapy project:
+1. To create a new Scrapy project, use the following command:
+    ```bash
+    python -m scrapy startproject <projectname>
+    ```
 
-```bash
-scrapy startproject <projectname>
-```
+2. To run a Scrapy spider:
+    ```bash
+    cd <projectname>
+    python -m scrapy genspider bookspider books.toscrape.com
+    python -m scrapy crawl bookspider
+    ```
 
-### Running a Scrapy Program
+3. To set up an interactive shell for debugging:
+    ```bash
+    pip install ipython
+    ```
 
-To run a Scrapy program:
-
-```bash
-cd <projectname>
-scrapy genspider bookspider books.toscrape.com
-scrapy crawl bookspider
-```
-
-Follow these steps to start and run your Scrapy project efficiently. Use the provided commands to set up the environment, run the spider, and interact with the Scrapy shell for seamless web scraping.
-
+Follow these steps to quickly set up and run your Scrapy project. The provided commands will help you configure the environment, run spiders, and use the Scrapy shell for efficient debugging.
 ### Sample File for `bookscrape.py`
 
 ```python

@@ -8,8 +8,17 @@
 from datetime import datetime
 from itemadapter import ItemAdapter
 from quotes_scrape.items import QuotesScrapeItem, AuthorScrapeItem
+import configparser
 import mysql.connector
 
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+# config variable
+DB_HOST     = config["DATABASE"]["db_host"]
+DB_USER     = config["DATABASE"]["db_user"]
+DB_PASSWORD = config["DATABASE"]["db_password"]
+DB_NAME     = config["DATABASE"]["db_name"]
 
 class QuotesScrapePipeline:
     def process_item(self, item, spider):
@@ -39,10 +48,10 @@ class QuotesScrapePipeline:
 class SaveQuotesItemMySQL:
     def __init__(self):
         self.conn = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="",
-            database="quotesdb"
+            host=DB_HOST,
+            user=DB_USER,
+            password=DB_PASSWORD,
+            database=DB_NAME
         )
         self.cur = self.conn.cursor()
         self.cur.execute("""

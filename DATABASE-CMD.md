@@ -107,3 +107,7 @@ To check the port number used by MySQL:
     ```
 
 This README provides the necessary steps to set up and troubleshoot MySQL on Codespaces. For more detailed information, consult the MySQL documentation.
+
+
+#### References:
+- [MySQL Documentation](https://dev.mysql.com/doc/mysql-getting-started/en/)

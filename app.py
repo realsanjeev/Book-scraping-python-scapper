@@ -2,7 +2,13 @@
 import os
 from flask import Flask, render_template, request
 from jinja2 import Environment, PackageLoader
-from pipeline import MyDatabase
+from pipeline import (
+    MyDatabase, 
+    DB_HOST, 
+    DB_USER, 
+    DB_PASSWORD, 
+    DB_NAME
+)
 
 
 app = Flask(__name__)
@@ -31,7 +37,7 @@ def book_view():
     page = request.args.get("page", 1, type=int) 
     offset = 0 if page<=1 else (page-1) * LIMIT
 
-    database = MyDatabase(db_name="bookdb")
+    database = MyDatabase(db_host=DB_HOST, db_user=DB_USER, db_password=DB_PASSWORD, db_name=DB_NAME)
     tables = database.get_tables_name()
     try:
         columns = database.get_column_names(table_name=tables[0])
@@ -39,7 +45,7 @@ def book_view():
         # Run scrapy for new clone
         os.system("python -m venv venv2")
         # chain command
-        # os.system("source venv2/bin/activate && pip install --upgrade pip && cd bookscrape && scrapy crawl bookspider")
+        os.system("source venv2/bin/activate && pip install --upgrade pip && cd bookscrape && scrapy crawl bookspider")
         columns = database.get_column_names(table_name=tables[0])
     
     records = database.get_records(table=tables[0], limit=LIMIT, offset=offset)
@@ -48,7 +54,7 @@ def book_view():
 @app.route('/quotes')
 def quotes_view():
     '''Display quotes from scraping the quotes stored in db'''
-    database = MyDatabase(db_name="quotesdb")
+    database = MyDatabase(db_host=DB_HOST, db_user=DB_USER, db_password=DB_PASSWORD, db_name="quotesdb")
     tables = database.get_tables_name()
     columns = database.get_column_names(table_name=tables[0])
     records = database.get_records(table=tables[0])

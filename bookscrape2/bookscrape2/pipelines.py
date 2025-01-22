@@ -6,7 +6,17 @@
 # useful for handling different item types with a single interface
 import os
 from itemadapter import ItemAdapter
+import configparser
 import mysql.connector
+
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+# config variable
+DB_HOST     = config["DATABASE"]["db_host"]
+DB_USER     = config["DATABASE"]["db_user"]
+DB_PASSWORD = config["DATABASE"]["db_password"]
+DB_NAME     = config["DATABASE"]["db_name"]
 
 class Bookscrape2Pipeline:
     def process_item(self, item, spider):
@@ -65,10 +75,10 @@ class SaveToMySQLPipeline:
             self.CSRF_TRUSTED_ORIGINS = 'localhost'
         
         self.conn = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='',
-            database='bookdb'
+            host=DB_HOST,
+            user=DB_USER,
+            password=DB_PASSWORD,
+            database=DB_NAME
         )
 
         # Create a cursor, used to execute commands
